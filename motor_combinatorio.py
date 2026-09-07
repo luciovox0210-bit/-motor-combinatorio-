@@ -4,7 +4,7 @@ motor_combinatorio.py
 Motor matemático de inteligência combinatória para sistemas de loteria.
 Implementação 100% vetorizada (NumPy) para:
   1. Geração da Matriz Principal (bilhetes) a partir de um universo reduzido de dezenas.
-  2. Cálculo automático do Grupo Espelho (vetor complementar N \\ n).
+  2. Cálculo automático do Grupo Espelho (vetor complementar N \ n).
   3. Validação por stress test Monte Carlo (10.000 simulações) sem laços for
      na etapa de conferência — usa produto matricial (np.dot) para checar
      todos os cartões contra todos os sorteios de uma vez.
@@ -24,6 +24,7 @@ from typing import Any, Dict, List, Tuple
 
 import numpy as np
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -177,6 +178,13 @@ app = FastAPI(
     title="Motor de Inteligência Combinatória de Loterias",
     version="1.0.0",
     description="Engine vetorizado para geração de bilhetes, grupo espelho e stress test Monte Carlo.",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://combo-logic.lovable.app"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
